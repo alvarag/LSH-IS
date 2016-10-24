@@ -1,6 +1,7 @@
 # LSH-IS: Instance selection of linear complexity for big data
 
-This is an open-source filter for Weka based on locality sensitive hashing. 
+This is an open-source filter for Weka based on locality sensitive hashing. Two algorithms are available and both have linear complexity.
+
 
 ###Cite this software as:
  **Á. Arnaiz-González, J-F. Díez Pastor, Juan J. Rodríguez, C. García Osorio.** _Instance selection of linear complexity for big data._ Knowledge-Based Systems, in press. [doi: 10.1016/j.knosys.2016.05.056](doi: 10.1016/j.knosys.2016.05.056)
@@ -23,4 +24,6 @@ It generates the jar file under /dist/weka
 
 Include the file instanceselection.jar into the path. Example: 
 
-```java -cp instanceselection.jar weka.gui.GUIChooser```
+```java -cp instanceselection.jar:weka.jar weka.gui.GUIChooser```
+
+The new filter can be found in: weka/filters/supervised/instance.
