@@ -1,0 +1,149 @@
+<project name="instanceselection" default="compile" basedir=".">
+	<!-- 
+  ===========================================================================
+   Ant build file for Instance Selection
+   
+   Creado por: Álvar Arnáiz González
+   Universidad de Burgos 2016
+  ===========================================================================
+-->
+
+	<!-- Propiedades globales -->
+	<property name="src-is" value="src/is" />
+	<property name="src-is-main" value="src/is/main" />
+	<property name="src-is-weka" value="src/is/weka" />
+	<property name="lib" value="lib" />
+	<property name="build" value="build" />
+	<property name="doc" value="doc" />
+	<property name="dist" value="dist" />
+	<property name="javac_max_memory" value="256m" />
+
+	<!-- Establecer classpath y rutas a los recursos -->
+	<path id="project.class.path">
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${build}/is" />
+	</path>
+
+	<target name="init_all">
+		<!-- Create the time stamp -->
+		<tstamp />
+	</target>
+
+
+	<!-- 
+ ============================================================================
+ Compilación y documentación
+ ============================================================================
+ -->
+	<!-- Crear las carpetas para los archivos compilados -->
+	<target name="init_compile" depends="init_all">
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}/is" />
+	</target>
+
+	<!-- Compilar el código fuente y dejarlo en ${build} -->
+	<target name="compile" depends="init_compile" description="Compile sources">
+		<!-- Compilar el core de la biblioteca -->
+		<javac srcdir="${src-is-main}" fork="yes" memoryMaximumSize="${javac_max_memory}" destdir="${build}/is">
+			<classpath refid="project.class.path" />
+		</javac>
+		
+		<!-- Compilar los filtros de weka -->
+		<javac srcdir="${src-is-weka}" fork="yes" memoryMaximumSize="${javac_max_memory}" destdir="${build}/is">
+			<classpath refid="project.class.path" />
+		</javac>
+	</target>
+
+	<!-- Crear la documentación del API con JavaDoc y dejarlo en ${doc} -->
+	<target name="docs" depends="init_all" description="Crear el API con JavaDoc">
+		<mkdir dir="${doc}" />
+		<javadoc sourcepath="${src-is}" classpathref="project.class.path" destdir="${doc}" packagenames="main.core.dis,main.core.algorithm,main.core.util,main.core.dis.partitioning,main.core.exception,main.core.algorithm.sort,main.core.dis.voting" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" doctitle="Instance Selection Library" author="yes" public="yes" maxmemory="256m" />
+	</target>
+
+	<!--
+  ===========================================================================
+  Crear los ficheros de distribución
+  ===========================================================================
+-->
+
+	<!-- Crear los directorios de las diversas distribuciones -->
+	<target name="init_dist" depends="init_all">
+		<mkdir dir="${dist}" />
+		<mkdir dir="${dist}/lib" />
+		<mkdir dir="${dist}/weka" />
+	</target>
+
+	<!-- Crear todas las distribuciones -->
+	<target name="dist_all" depends="dist, dist_src, dist_weka" description="Crear todos los jar">
+	</target>
+	
+	<!-- Crear el archivo empaquetado con los fuentes generados para el proyecto instanceselection-src.jar -->
+	<target name="dist_src" depends="init_dist, init_all" description="Crear el jar con los fuentes generados">
+		<!-- jar up the source -->
+		<jar jarfile="${dist}/instanceselection-src.jar" basedir=".">
+			<include name="build.xml" />
+			<include name="src/**/*" />
+		</jar>
+	</target>
+
+	<!-- Crear la biblioteca de Instance Selection instanceselection.jar -->
+	<target name="dist" depends="compile, init_dist" description="Crear el jar con la librería">
+		<jar jarfile="${dist}/lib/instanceselection.jar" basedir="${build}/is">
+		</jar>
+	</target>
+
+	<!-- Crear la distribución de Weka con los filtros de selección de instancias -->
+	<target name="dist_weka" depends="dist" description="Crear la distribución de los algoritmos como filtros de Weka">
+		<copy todir="${dist}/weka">
+			<fileset dir="${dist}/lib">
+				<include name="instanceselection.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist}/weka">
+			<fileset dir="${lib}">
+				<include name="weka.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Crear el ejecutable de la CLI -->
+	<target name="dist_cli" depends="dist" description="Crear el jar con el ejecutable CLI">
+		<jar jarfile="${dist}/cli/cli.jar" basedir="${build}/cli">
+			<manifest>
+				<attribute name="Main-Class" value="cli.Main" />
+				<attribute name="Class-Path" value="lib/weka.jar lib/instanceselection.jar" />
+			</manifest>
+		</jar>
+		<copy todir="${dist}/cli/">
+			<fileset dir="${src-cli}">
+				<include name="default.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${dist}/cli/lib">
+			<fileset dir="${dist}/lib">
+				<include name="instanceselection.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist}/cli/lib">
+			<fileset dir="${lib}">
+				<include name="weka.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!--
+  ===========================================================================
+  Limpiar el entorno
+  ===========================================================================
+-->
+
+	<!-- Eliminar todas las carpetas menos las librerías de terceros y el código fuente -->
+	<target name="clean" depends="init_all" description="Borra todas las carpetas menos las librerías de terceros y el código fuente">
+		<delete dir="${build}" />
+		<delete dir="${doc}" />
+		<delete dir="${dist}" />
+	</target>
+
+</project>
