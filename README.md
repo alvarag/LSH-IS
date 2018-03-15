@@ -27,7 +27,7 @@ This is an open-source filter for Weka based on locality sensitive hashing. Two 
 - Download source code: It is host on GitHub. To get the sources and compile them we will need git instructions. The specifically command is:
 ```git clone https://github.com/alvarag/LSH-IS.git ```
 - Build jar file: 
-```ant dist_all ```
+```ant dist_weka ```
 It generates the jar file under /dist/weka
 
 
