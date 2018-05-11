@@ -4,19 +4,18 @@ This is an open-source filter for Weka based on locality sensitive hashing. Two 
 
 
 ### Cite this software as:
- **Á. Arnaiz-González, J-F. Díez Pastor, Juan J. Rodríguez, C. García Osorio.** _Instance selection of linear complexity for big data._ Knowledge-Based Systems, 107, 83-95. [doi: 10.1016/j.knosys.2016.05.056](doi: 10.1016/j.knosys.2016.05.056)
+ **Á. Arnaiz-González, J-F. Díez Pastor, Juan J. Rodríguez, C. García Osorio.** _Instance selection of linear complexity for big data._ Knowledge-Based Systems, 107, 83-95. [doi: 10.1016/j.knosys.2016.05.056](https://doi.org/10.1016/j.knosys.2016.05.056)
 
 ```
 @article{ArnaizGonzalez2016,   
   title = "Instance selection of linear complexity for big data",   
   journal = "Knowledge-Based Systems ",   
   volume = "107",   
-  number = "",   
   pages = "83 - 95",   
   year = "2016",   
   issn = "0950-7051",   
   doi = "10.1016/j.knosys.2016.05.056",   
-  author = "\'Alvar Arnaiz-Gonz\'alez and Jos\'e F. D\'iez-Pastor and Juan J. Rodr\'iguez and C\'esar Garc\'ia-Osorio"   
+  author = "\'{A}lvar Arnaiz-Gonz\'{a}lez and Jos\'{e} F. D\'{i}ez-Pastor and Juan J. Rodr\'{i}guez and C\'{e}sar Garc\'{i}a-Osorio"   
 }
 ```
 
